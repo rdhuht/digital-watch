@@ -1,6 +1,4 @@
-input.onGesture(Gesture.Shake, function () {
-    ajustTM()
-})
+// 调整时间
 function ajustTM () {
     tm.showDP(1, false)
     while (!(input.isGesture(Gesture.ScreenUp))) {
@@ -23,6 +21,11 @@ function ajustTM () {
         })
     }
 }
+// 晃动时调整时间
+input.onGesture(Gesture.Shake, function () {
+    ajustTM()
+})
+// 开机设置
 let tm: TM1637.TM1637LEDs = null
 tm = TM1637.create(
 DigitalPin.P1,
@@ -30,8 +33,10 @@ DigitalPin.P2,
 7,
 4
 )
+// 拓展名：Time and Date
 timeanddate.set24HourTime(12, 0, 0)
 ajustTM()
+// 显示时间
 basic.forever(function () {
     tm.showDP(1, true)
     timeanddate.numericTime(function (hour, minute, second, month, day, year) {
