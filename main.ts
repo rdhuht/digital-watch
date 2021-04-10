@@ -25,6 +25,16 @@ function ajustTM () {
         }
     })
 }
+// 根据环境光，自动调整数码管的亮度
+function autoIntensity () {
+    tm.intensity(pins.map(
+    input.lightLevel(),
+    0,
+    255,
+    0,
+    10
+    ))
+}
 // 开机设置
 let tm: TM1637.TM1637LEDs = null
 tm = TM1637.create(
@@ -35,9 +45,7 @@ DigitalPin.P2,
 )
 // 拓展名：Time and Date
 timeanddate.set24HourTime(12, 0, 0)
-/**
- * 加入，亮度调节，环境光-》时间显示的亮度
- */
+// 调整时间
 // 显示时间
 basic.forever(function () {
     ajustTM()
@@ -45,6 +53,9 @@ basic.forever(function () {
         tm.showNumber(hour * 100 + minute)
     })
 })
+// 秒数：闪烁
+// 自动调整数码管亮度
 basic.forever(function () {
     blink()
+    autoIntensity()
 })
